@@ -2,15 +2,14 @@ package players;
 
 import game.HandRanks;
 import game.Player;
-
 import java.util.Random;
 
 public class AidanPlayer extends Player {
+    double random = 0.9;
+    double maxRaiseMultiplier = 20.0;
+    Random factor = new Random();
 
     boolean hasDecentHand;
-
-
-    String name;
     public AidanPlayer(String name) {
         super(name);
     }
@@ -21,59 +20,29 @@ public class AidanPlayer extends Player {
     protected void takePlayerTurn() {
         if (shouldFold()) {
             fold();
-        } else if (shouldAllIn())  {
-            allIn();
-        } else if(shouldRaise()) {
-            if(getGameState().getNumRoundStage() == 0) {
-                //if I have a pair at the beginning of the game, I raise 15
-                if(evaluatePlayerHand().getValue() == HandRanks.PAIR.getValue()) {
-                    raise(15);
-                }
+        } else if (shouldRaise()) {
+            if (getGameState().getNumRoundStage() == 0){
+                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 16.0); // Random factor between 1.0 and maxRaiseMultiplier
+                raise((int) (getGameState().getTableMinBet() * randomFactor));
             }
-            else if(getGameState().getNumRoundStage() == 1) {
-                //if I have a pair I raise 15
-                if(evaluatePlayerHand().getValue() == HandRanks.PAIR.getValue()) {
-                    raise(15);
-                }
-                //if I have two-pair I raise 20
-                else if (evaluatePlayerHand().getValue() == HandRanks.TWO_PAIR.getValue()) {
-                    raise(20);
-                }
-                //if I have three of a kind I raise 35
-                else if (evaluatePlayerHand().getValue() == HandRanks.THREE_OF_A_KIND.getValue()) {
-                    raise(35);
-                }
-                //if I have anything better than a flush I raise 40
-                else if (evaluatePlayerHand().getValue() >= HandRanks.FLUSH.getValue()) {
-                    raise(40);
-                }
+            if (getGameState().getNumRoundStage() == 1){
+                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 12.0); // Random factor between 1.0 and maxRaiseMultiplier
+                raise((int) (getGameState().getTableMinBet() * randomFactor));
             }
-            //as the game goes on I slowly increase how much I am betting depending on what I have
-            else if(getGameState().getNumRoundStage() == 2) {
-                if (evaluatePlayerHand().getValue() == HandRanks.TWO_PAIR.getValue()) {
-                    raise(20);
-                }
-                else if (evaluatePlayerHand().getValue() == HandRanks.THREE_OF_A_KIND.getValue()) {
-                    raise(35);
-                }
-                else if (evaluatePlayerHand().getValue() == HandRanks.FLUSH.getValue() || evaluatePlayerHand().getValue() == HandRanks.STRAIGHT.getValue()) {
-                    raise(45);
-                }
-                else if(evaluatePlayerHand().getValue() >= HandRanks.FULL_HOUSE.getValue()) {
-                    raise(55);
-                }
-            } else if(getGameState().getNumRoundStage() == 3) {
-                if (evaluatePlayerHand().getValue() == HandRanks.THREE_OF_A_KIND.getValue()) {
-                    raise(30);
-                }
-                else if (evaluatePlayerHand().getValue() == HandRanks.FLUSH.getValue() || evaluatePlayerHand().getValue() == HandRanks.STRAIGHT.getValue()) {
-                    raise(50);
-                }
+            if (getGameState().getNumRoundStage() == 2){
+                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 8.0); // Random factor between 1.0 and maxRaiseMultiplier
+                raise((int) (getGameState().getTableMinBet() * randomFactor));
             }
-        } else if (shouldCheck()) {
-            check();
+            if (getGameState().getNumRoundStage() == 3){
+                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 4.0); // Random factor between 1.0 and maxRaiseMultiplier
+                raise((int) (getGameState().getTableMinBet() * randomFactor));
+            }
         } else if (shouldCall()) {
             call();
+        } else if (shouldCheck()) {
+            check();
+        } else if (shouldAllIn()) {
+            allIn();
         }
     }
 
