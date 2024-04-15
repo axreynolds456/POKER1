@@ -26,19 +26,19 @@ public class AidanPlayer extends Player {
             check();
         } else if (shouldRaise()) {
             if (getGameState().getNumRoundStage() == 0) {
-                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 16.0); // Random factor between 1.0 and maxRaiseMultiplier
+                double randomFactor = 20.0 + factor.nextDouble() * (maxRaiseMultiplier - 12.0); // Random factor between 20.0 and maxRaiseMultiplier
                 raise((int) (getGameState().getTableMinBet() * randomFactor));
             }
             if (getGameState().getNumRoundStage() == 1) {
-                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 12.0); // Random factor between 1.0 and maxRaiseMultiplier
+                double randomFactor = 20.0 + factor.nextDouble() * (maxRaiseMultiplier - 10.0); // Random factor between 20.0 and maxRaiseMultiplier
                 raise((int) (getGameState().getTableMinBet() * randomFactor));
             }
             if (getGameState().getNumRoundStage() == 2) {
-                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 8.0); // Random factor between 1.0 and maxRaiseMultiplier
+                double randomFactor = 20.0 + factor.nextDouble() * (maxRaiseMultiplier - 6.0); // Random factor between 20.0 and maxRaiseMultiplier
                 raise((int) (getGameState().getTableMinBet() * randomFactor));
             }
             if (getGameState().getNumRoundStage() == 3) {
-                double randomFactor = 1.0 + factor.nextDouble() * (maxRaiseMultiplier - 4.0); // Random factor between 1.0 and maxRaiseMultiplier
+                double randomFactor = 10.0 + factor.nextDouble() * (maxRaiseMultiplier - 4.0); // Random factor between 10.0 and maxRaiseMultiplier
                 raise((int) (getGameState().getTableMinBet() * randomFactor));
             }
         } else if (shouldAllIn()) {
