@@ -113,8 +113,11 @@ public class AidanPlayer extends Player {
 
     @Override
     protected boolean shouldRaise() {
-        return true;
-    }
+        if(hasDecentHand == evaluatePlayerHand().getValue() >= HandRanks.TWO_PAIR.getValue()) {
+            return true;
+        }
+            return false;
+        }
 
     @Override
     protected boolean shouldAllIn() {
